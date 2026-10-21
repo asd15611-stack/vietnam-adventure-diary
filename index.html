@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#087f70">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./icon.svg" type="image/svg+xml">
+<title>越南冒險日記｜2026</title>
+<style>
+:root{--teal:#087f70;--mint:#e4f6ef;--ink:#173b39;--muted:#637775;--paper:#f5f8f6;--line:#dce8e2;--gold:#f3b84a}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif}
+header{padding:22px 18px 18px;background:linear-gradient(135deg,#075f59,#159b83);color:white;border-radius:0 0 24px 24px}
+header small{opacity:.85;letter-spacing:.08em}h1{font-size:25px;margin:6px 0}header p{margin:4px 0 0;opacity:.9;font-size:13px}
+main{padding:14px 14px 92px;max-width:720px;margin:auto}.hero{background:white;border-radius:18px;padding:16px;margin-top:-2px;box-shadow:0 5px 18px #163b3910}
+.eyebrow{font-size:12px;color:var(--teal);font-weight:700}.hero h2{margin:5px 0;font-size:20px}.muted{color:var(--muted);font-size:13px}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0}.tile{background:white;border:1px solid var(--line);border-radius:15px;padding:14px;text-align:left;color:var(--ink);font:inherit;min-height:92px}.tile span{display:block;font-size:24px}.tile b{display:block;margin-top:6px}.tile small{color:var(--muted)}
+nav{position:fixed;bottom:0;left:0;right:0;background:#ffffffef;backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:8px 3px calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{border:0;background:transparent;color:var(--muted);font-size:11px;padding:5px 8px;border-radius:10px}nav button.active{background:var(--mint);color:var(--teal);font-weight:700}nav span{display:block;font-size:20px;margin-bottom:2px}
+.page{display:none}.page.active{display:block}.section-title{font-size:18px;margin:18px 2px 10px}.card{background:white;border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0}.daytabs{display:flex;gap:7px;overflow:auto;padding:3px 0 8px}.daytabs button,.pill{white-space:nowrap;border:1px solid var(--line);background:white;border-radius:999px;padding:8px 12px;color:var(--ink)}.daytabs button.active,.primary{background:var(--teal);color:white;border-color:var(--teal)}
+.event{display:grid;grid-template-columns:65px 1fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.event:last-child{border:0}.time{color:var(--teal);font-weight:800;font-size:13px}.event p{margin:4px 0;font-size:13px;color:var(--muted)}button,input,select,textarea{font:inherit}input,select,textarea{width:100%;padding:11px;border:1px solid var(--line);border-radius:11px;background:white;color:var(--ink);margin:5px 0 10px}label{font-size:13px;font-weight:650}button.action{border:0;background:var(--teal);color:white;border-radius:11px;padding:11px 14px;font-weight:700}button.secondary{border:1px solid var(--line);background:white;border-radius:11px;padding:10px 12px;color:var(--ink)}.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.expense{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--line)}.badge{display:inline-block;background:#fff2cf;color:#805800;border-radius:10px;padding:8px 10px;margin:4px;font-size:13px}.checked{opacity:.6}.checked strong{text-decoration:line-through}.notice{background:#fff5df;border-radius:12px;padding:11px;font-size:13px;color:#77571c}.small{font-size:12px;color:var(--muted)}.hotelname{font-weight:750}.copy{float:right;border:1px solid var(--line);background:white;border-radius:8px;padding:5px 8px;font-size:12px}
+</style>
+</head>
+<body>
+<header><small>VIETNAM ADVENTURE · 2026</small><h1>🇻🇳 越南冒險日記</h1><p>北越六天五夜｜11/18（三）–11/23（一）</p></header>
+<main>
+<section class="page active" id="home">
+ <div class="hero"><div class="eyebrow">✦ 你的旅行控制台</div><h2>準備好出發了嗎？</h2><div class="muted">河內・沙壩・番西邦峰・下龍灣</div><div style="margin-top:14px;background:var(--mint);padding:12px;border-radius:12px"><b>旅行進度 <span id="progress">0/8</span></b><div style="height:7px;background:#c8e5db;border-radius:8px;margin-top:8px"><div id="progressbar" style="height:7px;width:0;background:var(--teal);border-radius:8px"></div></div></div></div>
+ <div class="tiles">
+ <button class="tile" onclick="showPage('itinerary')"><span>🗓️</span><b>行程表</b><small>每日時間與提醒</small></button>
+ <button class="tile" onclick="showPage('places')"><span>📍</span><b>飯店與地點</b><small>地址、導航、複製</small></button>
+ <button class="tile" onclick="showPage('translate')"><span>🗣️</span><b>旅遊翻譯</b><small>中越／中英常用句</small></button>
+ <button class="tile" onclick="showPage('expenses')"><span>💰</span><b>越南盾記帳</b><small>支出與台幣參考</small></button>
+ <button class="tile" onclick="showPage('achievements')"><span>🏆</span><b>成就打卡</b><small>解鎖旅行徽章</small></button>
+ <button class="tile" onclick="showPage('offline')"><span>📴</span><b>離線準備</b><small>旅行前必做檢查</small></button>
+ </div>
+ <div class="notice">⚠️ 重要：這是第一版原型。飯店地址、交通時間與預訂資料請出發前逐項核對；即時導航、附近搜尋和自由輸入 AI 翻譯需要網路。</div>
+</section>
+<section class="page" id="itinerary"><h2 class="section-title">🗓️ 六天五夜行程</h2><div class="daytabs" id="daytabs"></div><div id="daycontent"></div></section>
+<section class="page" id="places"><h2 class="section-title">📍 飯店與重要地點</h2><div id="placeslist"></div><div class="notice">導航連結需要網路。離線時可先複製或展示已儲存的地址給司機。</div></section>
+<section class="page" id="translate"><h2 class="section-title">🗣️ 旅遊常用句</h2><div class="row"><button class="secondary" onclick="setLang('vi')" id="vibtn">中文 ↔ 越文</button><button class="secondary" onclick="setLang('en')" id="enbtn">中文 ↔ 英文</button></div><label>搜尋中文或外文</label><input id="phraseSearch" placeholder="例如：飯店、How much..." oninput="renderPhrases()"><div id="phrases"></div><p class="small">這些是預先儲存的常用句，可離線查看；不等同即時 AI 翻譯或語音翻譯。</p></section>
+<section class="page" id="expenses"><h2 class="section-title">💰 越南盾記帳</h2><div class="card"><div class="row"><div><div class="small">累積支出</div><h2 id="totalVnd">0 ₫</h2></div><div><div class="small">台幣參考</div><h2 id="totalTwd">NT$0</h2></div></div><label>金額（越南盾）</label><input id="amount" type="number" min="0" placeholder="例如 150000"><label>類別</label><select id="category"><option>餐飲</option><option>交通</option><option>住宿</option><option>購物</option><option>按摩休閒</option><option>門票活動</option><option>其他</option></select><div class="row"><div><label>付款方式</label><select id="payment"><option>現金</option><option>信用卡</option><option>其他</option></select></div><div><label>參考匯率（VND／TWD）</label><input id="rate" type="number" value="800" min="1"></div></div><label>備註</label><input id="memo" placeholder="例如：河粉、計程車"><button class="action" onclick="addExpense()">＋ 儲存支出</button></div><div class="section-title">支出紀錄</div><div class="card" id="expenseList"></div><button class="secondary" onclick="exportExpenses()">匯出記帳 CSV 備份</button> <button class="secondary" onclick="clearExpenses()">清除全部紀錄</button><p class="small">匯率只是可自行調整的參考值，不是即時牌告匯率。請定期匯出備份。</p></section>
+<section class="page" id="achievements"><h2 class="section-title">🏆 旅遊成就</h2><div class="card"><b>主線進度 <span id="achCount">0/8</span></b><div id="achievementsList"></div></div></section>
+<section class="page" id="offline"><h2 class="section-title">📴 離線與出發檢查</h2><div class="card"><p>勾選完成的準備事項，紀錄會保存在這個瀏覽器。</p><div id="checklist"></div></div><div class="card"><b>離線使用須知</b><p class="small">此單檔原型可在下載後嘗試離線開啟，但不同 Android 瀏覽器對本機檔案的儲存限制不同。若要可靠地「加入主畫面」並支援 PWA 離線快取，下一步需部署到 HTTPS 網址並加入 Service Worker，再於手機實際測試。</p><button class="action" onclick="exportBackup()">匯出網站資料備份</button> <button class="secondary" onclick="document.getElementById('importFile').click()">匯入備份</button><input id="importFile" type="file" accept="application/json" style="display:none" onchange="importBackup(event)"></div></section>
+</main>
+<nav>
+<button class="active" data-page="home" onclick="showPage('home')"><span>⌂</span>首頁</button><button data-page="itinerary" onclick="showPage('itinerary')"><span>▦</span>行程</button><button data-page="places" onclick="showPage('places')"><span>⌖</span>地點</button><button data-page="translate" onclick="showPage('translate')"><span>文</span>翻譯</button><button data-page="expenses" onclick="showPage('expenses')"><span>＄</span>記帳</button>
+</nav>
+<script>
+const days=[
+{date:'11/18（三）',title:'河內 → 沙壩',events:[['16:00','抵達河內機場','領取行李、確認集合與交通安排。'],['下午','前往 HK Buslines 辦公室','70 Nguyen Huu Huan；依當天狀況寄放行李。'],['下午至晚上','河內老城區自由活動','可選擇教堂、36 古街、咖啡廳等；預留回程時間。'],['21:30','返回 HK Buslines 辦公室','確認車票、行李與上車位置。'],['22:45','HK Buslines 夜臥巴士','河內前往沙壩；以最終電子票為準。']]},
+{date:'11/19（四）',title:'沙壩：番西邦峰／貓貓村',events:[['清晨','抵達沙壩、前往飯店','已安排接駁需求；早入住視房況與飯店回覆。'],['上午','番西邦峰','其中一組可依體力與天氣決定是否前往；確認纜車營運。'],['下午','貓貓村','預留步行與休息時間。'],['晚上','入住 Palais De Sapa Boutique Hotel','入住時間與提早入住費用以飯店確認為準。']]},
+{date:'11/20（五）',title:'沙壩 → 河內',events:[['早上','退房、整理行李','確認接駁與上車點。'],['08:15','HK Buslines 回河內','以最新電子票上的上車、下車資訊為準。'],['抵達後','Minerva Church Hotel','寄放 28 吋行李，確認房間與入住安排。'],['下午／晚上','河內自由活動','安排輕鬆步行、用餐及休息。']]},
+{date:'11/21（六）',title:'河內 → 下龍灣郵輪',events:[['早上','依郵輪接送通知集合','再次確認接送時間、地點及行李規定。'],['白天','Hermes Premium Cruise Halong','下龍灣 2 天 1 夜；確認護照要求與船上活動。'],['晚上','郵輪住宿','記得確認尾款、船上安全及隔日集合時間。']]},
+{date:'11/22（日）',title:'下龍灣 → 河內',events:[['上午','郵輪行程與退船','依船方最終行程與集合通知。'],['下午','返回河內','確認接送方式與抵達時間。'],['晚上','Minerva Church Hotel','入住河內飯店；整理隔日返程行李。']]},
+{date:'11/23（一）',title:'河內 → 返程',events:[['早上','退房、確認交通','兩組航班不同，務必各自確認出發時間。'],['約中午前','前往機場（15:40 航班組）','建議預留足夠國際線報到時間。'],['11:35／15:40','分組返程','再次核對各自航空公司、航廈與行李。']]}
+];
+const places=[
+['HK Buslines 河內辦公室','70 Nguyen Huu Huan, Hoan Kiem, Hanoi','巴士上車與報到點','https://www.google.com/maps/search/?api=1&query=70+Nguyen+Huu+Huan+Hanoi'],
+['Palais De Sapa Boutique Hotel','87 Thạch Sơn Street, Sa Pa, Vietnam','11/19 沙壩住宿','https://www.google.com/maps/search/?api=1&query=Palais+De+Sapa+Boutique+Hotel'],
+['Minerva Church Hotel','河內；請依訂房確認單核對完整地址','11/20、11/22 河內住宿','https://www.google.com/maps/search/?api=1&query=Minerva+Church+Hotel+Hanoi'],
+['Hermes Premium Cruise Halong','下龍灣；集合碼頭與接送點待船方確認','11/21–11/22 郵輪','https://www.google.com/maps/search/?api=1&query=Hermes+Premium+Cruise+Halong']
+];
+const phrases=[
+['請帶我們到這間飯店。','Vui lòng đưa chúng tôi đến khách sạn này.','Please take us to this hotel.','交通'],
+['請問這個多少錢？','Cái này bao nhiêu tiền?','How much is this?','購物'],
+['請在這裡讓我們下車。','Vui lòng cho chúng tôi xuống ở đây.','Please drop us off here.','交通'],
+['請問洗手間在哪裡？','Nhà vệ sinh ở đâu?','Where is the restroom?','日常'],
+['請幫我們確認訂房。','Vui lòng xác nhận đặt phòng giúp chúng tôi.','Could you confirm our reservation, please?','住宿'],
+['我們有四個人。','Chúng tôi có bốn người.','There are four of us.','日常'],
+['請不要加辣。','Vui lòng đừng cho cay.','Please don’t make it spicy.','餐飲'],
+['可以刷卡嗎？','Có thể thanh toán bằng thẻ không?','Can I pay by card?','付款'],
+['請稍等一下。','Vui lòng đợi một chút.','Please wait a moment.','日常'],
+['我需要幫忙。','Tôi cần giúp đỡ.','I need help.','緊急'],
+['我想去這個地址。','Tôi muốn đến địa chỉ này.','I’d like to go to this address.','交通'],
+['謝謝。','Cảm ơn.','Thank you.','日常']
+];
+const achievements=[['✈️','北越啟程','完成出發打卡'],['🚌','夜臥冒險家','完成河內至沙壩夜巴'],['⛰️','征服番西邦','完成番西邦峰打卡'],['🏡','沙壩探索者','完成貓貓村打卡'],['🚢','海上冒險家','完成下龍灣郵輪打卡'],['🍜','越南美食家','記錄五種不同美食'],['💰','精明旅人','新增第一筆旅費'],['🏆','北越全制霸','完成所有主線任務']];
+const checks=['下載河內、沙壩、下龍灣離線地圖','確認越南電子簽證與護照資料','保存巴士電子票與 QR Code','保存飯店訂房資訊與地址','確認郵輪接送、護照要求與尾款','購買含適用交通／船上保障的旅遊保險','準備 SIM 卡與重要聯絡方式','匯出記帳與網站資料備份'];
+let lang='vi',dayIndex=0;
+const get=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}};
+const put=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));window.scrollTo(0,0);if(id==='expenses')renderExpenses();if(id==='achievements')renderAchievements()}
+function renderDays(){document.getElementById('daytabs').innerHTML=days.map((d,i)=>`<button class="${i===dayIndex?'active':''}" onclick="dayIndex=${i};renderDays()">${d.date}</button>`).join('');let d=days[dayIndex];document.getElementById('daycontent').innerHTML=`<div class="card"><div class="eyebrow">DAY ${dayIndex+1}</div><h2>${d.title}</h2>${d.events.map(e=>`<div class="event"><div class="time">${e[0]}</div><div><b>${e[1]}</b><p>${e[2]}</p></div></div>`).join('')}</div><div class="notice">行程為目前整理的規劃稿，接駁、營運時間、航班與訂位細節請以最新憑證及業者通知為準。</div>`}
+function renderPlaces(){document.getElementById('placeslist').innerHTML=places.map(p=>`<div class="card"><div class="hotelname">${p[0]}</div><p class="muted">${p[2]}</p><p>${p[1]} <button class="copy" onclick="copyText(${JSON.stringify(p[1])})">複製地址</button></p><a href="${p[3]}" target="_blank" rel="noopener">有網路時開啟地圖 ↗</a></div>`).join('')}
+function setLang(l){lang=l;document.getElementById('vibtn').className=l==='vi'?'action':'secondary';document.getElementById('enbtn').className=l==='en'?'action':'secondary';renderPhrases()}
+function renderPhrases(){let q=(document.getElementById('phraseSearch').value||'').toLowerCase();document.getElementById('phrases').innerHTML=phrases.filter(p=>p.join(' ').toLowerCase().includes(q)).map(p=>`<div class="card"><div class="small">${p[3]}</div><b>${p[0]}</b><p>${lang==='vi'?p[1]:p[2]}</p><button class="secondary" onclick="copyText(${JSON.stringify(lang==='vi'?p[1]:p[2])})">複製外文</button></div>`).join('')||'<p class="muted">找不到符合的句子。</p>'}
+function addExpense(){let amount=Number(document.getElementById('amount').value);if(!amount||amount<0){alert('請輸入有效金額');return}let a=get('expenses',[]);a.unshift({amount,category:document.getElementById('category').value,payment:document.getElementById('payment').value,memo:document.getElementById('memo').value,date:new Date().toLocaleDateString('zh-TW')});put('expenses',a);document.getElementById('amount').value='';document.getElementById('memo').value='';renderExpenses();renderAchievements();updateProgress()}
+function renderExpenses(){let a=get('expenses',[]),sum=a.reduce((s,x)=>s+x.amount,0),rate=Math.max(1,Number(document.getElementById('rate')?.value||800));document.getElementById('totalVnd').textContent=sum.toLocaleString()+' ₫';document.getElementById('totalTwd').textContent='NT$'+Math.round(sum/rate).toLocaleString();document.getElementById('expenseList').innerHTML=a.length?a.map((x,i)=>`<div class="expense"><div><b>${x.memo||x.category}</b><div class="small">${x.date} · ${x.category} · ${x.payment}</div></div><div><b>${x.amount.toLocaleString()} ₫</b><button class="copy" onclick="deleteExpense(${i})">刪除</button></div></div>`).join(''):'<p class="muted">尚無支出紀錄。</p>'}
+function deleteExpense(i){let a=get('expenses',[]);a.splice(i,1);put('expenses',a);renderExpenses();renderAchievements();updateProgress()}
+function clearExpenses(){if(confirm('確定刪除所有記帳紀錄？建議先匯出備份。')){put('expenses',[]);renderExpenses();renderAchievements();updateProgress()}}
+function exportExpenses(){let a=get('expenses',[]),csv='日期,金額VND,類別,付款方式,備註\\n'+a.map(x=>[x.date,x.amount,x.category,x.payment,x.memo].map(v=>'"'+String(v||'').replaceAll('"','""')+'"').join(',')).join('\\n');download('vietnam-expenses.csv','text/csv;charset=utf-8',csv)}
+function renderAchievements(){let done=get('ach',[]),exp=get('expenses',[]);let unlocked=done.slice();if(exp.length&&!unlocked.includes(6))unlocked.push(6);document.getElementById('achCount').textContent=unlocked.length+'/8';document.getElementById('achievementsList').innerHTML=achievements.map((a,i)=>`<div class="event ${unlocked.includes(i)?'checked':''}"><div style="font-size:27px">${a[0]}</div><div><b>${a[1]}</b><p class="muted">${a[2]}</p><button class="secondary" onclick="toggleAch(${i})">${unlocked.includes(i)?'✓ 已解鎖／取消':'完成打卡'}</button></div></div>`).join('');updateProgress()}
+function toggleAch(i){let a=get('ach',[]);a=a.includes(i)?a.filter(x=>x!==i):[...a,i];put('ach',a);renderAchievements()}
+function renderChecks(){let c=get('checks',[]);document.getElementById('checklist').innerHTML=checks.map((x,i)=>`<label style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-weight:500"><input type="checkbox" style="width:auto;margin:0" ${c.includes(i)?'checked':''} onchange="toggleCheck(${i},this.checked)">${x}</label>`).join('')}
+function toggleCheck(i,v){let c=get('checks',[]);put('checks',v?[...new Set([...c,i])]:c.filter(x=>x!==i));renderChecks()}
+function updateProgress(){let a=get('ach',[]),n=new Set(a);if(get('expenses',[]).length)n.add(6);let count=n.size;document.getElementById('progress').textContent=count+'/8';document.getElementById('progressbar').style.width=(count/8*100)+'%'}
+function copyText(t){if(navigator.clipboard&&location.protocol!=='file:')navigator.clipboard.writeText(t).then(()=>alert('已複製')).catch(()=>prompt('請手動複製：',t));else prompt('請長按複製以下內容：',t)}
+function download(name,type,data){let b=new Blob(['\\ufeff'+data],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
+function exportBackup(){download('vietnam-adventure-backup.json','application/json',JSON.stringify({expenses:get('expenses',[]),ach:get('ach',[]),checks:get('checks',[])},null,2))}
+function importBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(d.expenses)put('expenses',d.expenses);if(d.ach)put('ach',d.ach);if(d.checks)put('checks',d.checks);renderExpenses();renderAchievements();renderChecks();alert('備份匯入完成')}catch{alert('檔案格式不正確')}};r.readAsText(f)}
+renderDays();renderPlaces();setLang('vi');renderExpenses();renderAchievements();renderChecks();updateProgress();
+</script>
+<script>
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./service-worker.js").catch(err => console.warn("離線快取註冊失敗", err));
+  });
+}
+</script>
+</body></html>
