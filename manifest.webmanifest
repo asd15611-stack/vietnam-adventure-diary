@@ -1,20 +1,11 @@
 {
-  "name": "越南冒險日記｜2026",
-  "short_name": "越南冒險日記",
-  "description": "北越六天五夜旅遊行程、翻譯、記帳與成就打卡",
+  "name": "越南冒險日記｜旅行回憶錄",
+  "short_name": "越南日記",
   "lang": "zh-Hant",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "orientation": "portrait",
   "background_color": "#f5f8f6",
   "theme_color": "#087f70",
-  "icons": [
-    {
-      "src": "./icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
-  ]
+  "description": "越南旅行行程、翻譯、支出與旅行回憶錄"
 }
