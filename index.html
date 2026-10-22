@@ -90,7 +90,7 @@ function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.
 function renderDays(){document.getElementById('daytabs').innerHTML=days.map((d,i)=>`<button class="${i===dayIndex?'active':''}" onclick="dayIndex=${i};renderDays()">${d.date}</button>`).join('');let d=days[dayIndex];document.getElementById('daycontent').innerHTML=`<div class="card"><div class="eyebrow">DAY ${dayIndex+1}</div><h2>${d.title}</h2>${d.events.map(e=>`<div class="event"><div class="time">${e[0]}</div><div><b>${e[1]}</b><p>${e[2]}</p></div></div>`).join('')}</div><div class="notice">行程為目前整理的規劃稿，接駁、營運時間、航班與訂位細節請以最新憑證及業者通知為準。</div>`}
 function renderPlaces(){document.getElementById('placeslist').innerHTML=places.map(p=>`<div class="card"><div class="hotelname">${p[0]}</div><p class="muted">${p[2]}</p><p>${p[1]} <button class="copy" onclick="copyText(${JSON.stringify(p[1])})">複製地址</button></p><a href="${p[3]}" target="_blank" rel="noopener">有網路時開啟地圖 ↗</a></div>`).join('')}
 function setLang(l){lang=l;document.getElementById('vibtn').className=l==='vi'?'action':'secondary';document.getElementById('enbtn').className=l==='en'?'action':'secondary';renderPhrases()}
-function renderPhrases(){let q=(document.getElementById('phraseSearch').value||'').toLowerCase();document.getElementById('phrases').innerHTML=phrases.filter(p=>p.join(' ').toLowerCase().includes(q)).map(p=>`<div class="card"><div class="small">${p[3]}</div><b>${p[0]}</b><p>${lang==='vi'?p[1]:p[2]}</p><button class="secondary" onclick="copyText(${JSON.stringify(lang==='vi'?p[1]:p[2])})">複製外文</button></div>`).join('')||'<p class="muted">找不到符合的句子。</p>'}
+function renderPhrases(ElementById('phrases').innerHTML=phrases.filter(p=>p.jo){let q=(document.getElementById('phraseSearch').value||'').toLowerCase();document.getin(' ').toLowerCase().includes(q)).map(p=>`<div class="card"><div class="small">${p[3]}</div><b>${p[0]}</b><p>${lang==='vi'?p[1]:p[2]}</p><button class="secondary" onclick="copyText(${JSON.stringify(lang==='vi'?p[1]:p[2])})">複製外文</button></div>`).join('')||'<p class="muted">找不到符合的句子。</p>'}
 async function translateFreeText(){const input=document.getElementById('translateInput'),button=document.getElementById('translateBtn'),status=document.getElementById('translateStatus'),card=document.getElementById('translateResultCard'),result=document.getElementById('translateResult');const text=input.value.trim();if(!text){status.textContent='請先輸入要翻譯的中文。';card.style.display='none';return}if(text.length>500){status.textContent='一次最多翻譯 500 個字，請分段輸入。';card.style.display='none';return}button.disabled=true;button.textContent='翻譯中…';status.textContent='正在連線翻譯服務，請稍候。';card.style.display='none';try{const url='https://api.mymemory.translated.net/get?q='+encodeURIComponent(text)+'&langpair=zh-CN|vi';const response=await fetch(url,{method:'GET'});if(!response.ok)throw new Error('HTTP '+response.status);const data=await response.json();const translated=data?.responseData?.translatedText;if(!translated||data.responseStatus!==200)throw new Error(data?.responseDetails||'翻譯服務暫時無法使用');result.value=translated;card.style.display='block';status.textContent='翻譯完成。請留意專有名詞、地址與數字，必要時再確認。'}catch(error){status.textContent='目前無法取得翻譯。請確認手機有網路後再試，或先使用下方離線常用句。';console.warn('Translation failed:',error)}finally{button.disabled=false;button.textContent='翻譯成越南文'}}
 let editingExpenseId=null;
 function todayISO(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
@@ -115,7 +115,6 @@ function toggleAch(i){let a=get('ach',[]);a=a.includes(i)?a.filter(x=>x!==i):[..
 function renderChecks(){let c=get('checks',[]);document.getElementById('checklist').innerHTML=checks.map((x,i)=>`<label style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-weight:500"><input type="checkbox" style="width:auto;margin:0" ${c.includes(i)?'checked':''} onchange="toggleCheck(${i},this.checked)">${x}</label>`).join('')}
 function toggleCheck(i,v){let c=get('checks',[]);put('checks',v?[...new Set([...c,i])]:c.filter(x=>x!==i));renderChecks()}
 function updateProgress(){let a=get('ach',[]),n=new Set(a);if(get('expenses',[]).length)n.add(6);let count=n.size;document.getElementById('progress').textContent=count+'/8';document.getElementById('progressbar').style.width=(count/8*100)+'%'}
-function copyText(t){
 async function copyText(t) {
   try {
     if (navigator.clipboard && window.isSecureContext) {
@@ -133,33 +132,30 @@ async function copyText(t) {
   textarea.style.position = 'fixed';
   textarea.style.left = '0';
   textarea.style.top = '0';
-  textarea.style.opacity = '1';
-  textarea.style.zIndex = '99999';
+  textarea.style.opacity = '0';
   document.body.appendChild(textarea);
   textarea.focus();
   textarea.select();
   textarea.setSelectionRange(0, textarea.value.length);
 
   try {
-    const success = document.execCommand('copy');
-    if (success) {
+    if (document.execCommand('copy')) {
       alert('已複製，可以直接貼上了！');
     } else {
-      prompt('自動複製未成功，請長按下方文字並選擇「複製」：', t);
+      prompt('請長按以下文字並選擇「複製」：', t);
     }
   } catch (e) {
-    prompt('請長按下方文字並選擇「複製」：', t);
+    prompt('請長按以下文字並選擇「複製」：', t);
   } finally {
     textarea.remove();
   }
 }
-}
+
 function download(name,type,data){let b=new Blob(['\\ufeff'+data],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
 function exportBackup(){download('vietnam-adventure-backup.json','application/json',JSON.stringify({expenses:get('expenses',[]),ach:get('ach',[]),checks:get('checks',[])},null,2))}
 function importBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d||typeof d!=='object'||Array.isArray(d))throw new Error('invalid');if(d.expenses!==undefined&&!Array.isArray(d.expenses))throw new Error('invalid');if(d.ach!==undefined&&!Array.isArray(d.ach))throw new Error('invalid');if(d.checks!==undefined&&!Array.isArray(d.checks))throw new Error('invalid');if(d.expenses!==undefined)put('expenses',d.expenses.map(x=>({...x,date:normalizeDate(x.date),splitMembers:parseMembers(x.splitMembers),splitAmounts:splitAmounts(Number(x.amount)||0,parseMembers(x.splitMembers))})));if(d.ach!==undefined)put('ach',d.ach);if(d.checks!==undefined)put('checks',d.checks);resetExpenseForm();renderExpenses();renderAchievements();renderChecks();updateProgress();alert('備份匯入完成')}catch{alert('檔案格式不正確，沒有匯入資料')}finally{e.target.value=''}};r.readAsText(f)}
 renderDays();renderPlaces();setLang('vi');document.getElementById('expenseDate').value=todayISO();renderExpenses();renderAchievements();renderChecks();updateProgress();
 </script>
-<script>
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("./service-worker.js").catch(err => console.warn("離線快取註冊失敗", err));
