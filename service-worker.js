@@ -1,4 +1,4 @@
-const CACHE_NAME = "vietnam-adventure-v3";
+const CACHE_NAME = "vietnam-adventure-v4";
 const CORE_FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(CORE_FILES)).then(() => self.skipWaiting()));
