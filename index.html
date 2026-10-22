@@ -115,7 +115,45 @@ function toggleAch(i){let a=get('ach',[]);a=a.includes(i)?a.filter(x=>x!==i):[..
 function renderChecks(){let c=get('checks',[]);document.getElementById('checklist').innerHTML=checks.map((x,i)=>`<label style="display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-weight:500"><input type="checkbox" style="width:auto;margin:0" ${c.includes(i)?'checked':''} onchange="toggleCheck(${i},this.checked)">${x}</label>`).join('')}
 function toggleCheck(i,v){let c=get('checks',[]);put('checks',v?[...new Set([...c,i])]:c.filter(x=>x!==i));renderChecks()}
 function updateProgress(){let a=get('ach',[]),n=new Set(a);if(get('expenses',[]).length)n.add(6);let count=n.size;document.getElementById('progress').textContent=count+'/8';document.getElementById('progressbar').style.width=(count/8*100)+'%'}
-function copyText(t){if(navigator.clipboard&&location.protocol!=='file:')navigator.clipboard.writeText(t).then(()=>alert('已複製')).catch(()=>prompt('請手動複製：',t));else prompt('請長按複製以下內容：',t)}
+function copyText(t){
+async function copyText(t) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(t);
+      alert('已複製，可以直接貼上了！');
+      return;
+    }
+  } catch (e) {
+    console.warn('Clipboard API failed:', e);
+  }
+
+  const textarea = document.createElement('textarea');
+  textarea.value = t;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.left = '0';
+  textarea.style.top = '0';
+  textarea.style.opacity = '1';
+  textarea.style.zIndex = '99999';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  textarea.setSelectionRange(0, textarea.value.length);
+
+  try {
+    const success = document.execCommand('copy');
+    if (success) {
+      alert('已複製，可以直接貼上了！');
+    } else {
+      prompt('自動複製未成功，請長按下方文字並選擇「複製」：', t);
+    }
+  } catch (e) {
+    prompt('請長按下方文字並選擇「複製」：', t);
+  } finally {
+    textarea.remove();
+  }
+}
+}
 function download(name,type,data){let b=new Blob(['\\ufeff'+data],{type}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;a.click();URL.revokeObjectURL(u)}
 function exportBackup(){download('vietnam-adventure-backup.json','application/json',JSON.stringify({expenses:get('expenses',[]),ach:get('ach',[]),checks:get('checks',[])},null,2))}
 function importBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let d=JSON.parse(r.result);if(!d||typeof d!=='object'||Array.isArray(d))throw new Error('invalid');if(d.expenses!==undefined&&!Array.isArray(d.expenses))throw new Error('invalid');if(d.ach!==undefined&&!Array.isArray(d.ach))throw new Error('invalid');if(d.checks!==undefined&&!Array.isArray(d.checks))throw new Error('invalid');if(d.expenses!==undefined)put('expenses',d.expenses.map(x=>({...x,date:normalizeDate(x.date),splitMembers:parseMembers(x.splitMembers),splitAmounts:splitAmounts(Number(x.amount)||0,parseMembers(x.splitMembers))})));if(d.ach!==undefined)put('ach',d.ach);if(d.checks!==undefined)put('checks',d.checks);resetExpenseForm();renderExpenses();renderAchievements();renderChecks();updateProgress();alert('備份匯入完成')}catch{alert('檔案格式不正確，沒有匯入資料')}finally{e.target.value=''}};r.readAsText(f)}
